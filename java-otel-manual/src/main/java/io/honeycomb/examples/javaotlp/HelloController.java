@@ -19,6 +19,7 @@ public class HelloController {
 
     @RequestMapping("/")
     public String index(@RequestHeader Map<String, String> headers) {
+        // incoming context propagation
         final TextMapPropagator textMapPropagator = getPropagators().getTextMapPropagator();
         Context ctx = textMapPropagator.extract(Context.current(), headers, new TextMapGetter<>() {
             @Override
@@ -46,6 +47,8 @@ public class HelloController {
             }
             try {
                 final URL url = new URL("http://localhost:8080/todos");
+
+                // outgoing context propagation
                 final HttpURLConnection transportLayer = (HttpURLConnection) url.openConnection();
                 getPropagators().getTextMapPropagator().inject(Context.current(), transportLayer, URLConnection::setRequestProperty);
                 try {

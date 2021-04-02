@@ -56,7 +56,6 @@ public class TodosService {
     public void createTodo(final Todo todo) {
         System.out.println("creating todos");
         try (Scope scope = Context.current().with(Baggage.current().toBuilder().put("decade", "90s").build()).makeCurrent()) {
-            assert Context.current() == Context.current().with(Baggage.current().toBuilder().put("decade", "90s").build());
             Span.current().setAttribute("decade", "90s");
 
             HttpClient client = HttpClient.newHttpClient();
