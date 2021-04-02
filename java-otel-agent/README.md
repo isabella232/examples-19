@@ -1,4 +1,10 @@
-# manual-otel-java
+# java-otel-agent
+
+## RUN
+```sh
+mvn package
+OTEL_RESOURCE_ATTRIBUTES=service.name=app1 OTEL_METRICS_EXPORTER=none OTEL_EXPORTER_OTLP_ENDPOINT="https://api-dogfood.honeycomb.io:443" OTEL_EXPORTER_OTLP_HEADERS="x-honeycomb-team=abc,x-honeycomb-dataset=shiny-java" java -javaagent:opentelemetry-javaagent-all.jar -jar target/java-example-webapp-1.0.0.jar
+```
 
 ## API
 
