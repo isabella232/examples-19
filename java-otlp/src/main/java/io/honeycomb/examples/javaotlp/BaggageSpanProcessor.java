@@ -8,9 +8,7 @@ public class BaggageSpanProcessor implements SpanProcessor {
     @Override
     public void onStart(Context parentContext, ReadWriteSpan span) {
         Baggage.fromContext(parentContext)
-                .forEach((s, baggageEntry) -> {
-                    span.setAttribute(s, baggageEntry.getValue());
-                });
+                .forEach((s, baggageEntry) -> span.setAttribute(s, baggageEntry.getValue()));
     }
 
     @Override

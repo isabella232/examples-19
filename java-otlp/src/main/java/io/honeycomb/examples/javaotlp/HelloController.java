@@ -41,6 +41,9 @@ public class HelloController {
             Span span = GlobalOpenTelemetry.getTracer("java-otlp")
                 .spanBuilder("hello")
                 .startSpan();
+            try (final Scope scope1 = span.makeCurrent()) {
+                holler();
+            }
             try {
                 final URL url = new URL("http://localhost:8080/todos");
                 final HttpURLConnection transportLayer = (HttpURLConnection) url.openConnection();
@@ -61,4 +64,20 @@ public class HelloController {
         return "Hello world!";
     }
 
+    private void holler() {
+        Span span = GlobalOpenTelemetry.getTracer("java-otlp")
+            .spanBuilder("holler")
+            .startSpan();
+        try (final Scope scope = span.makeCurrent()) {
+            chill();
+        } finally {
+            span.end();
+        }
+    }
+
+    private void chill() {
+        GlobalOpenTelemetry.getTracer("java-otlp")
+            .spanBuilder("chill")
+            .startSpan().end();
+    }
 }
